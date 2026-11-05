@@ -47,73 +47,45 @@
         const GOOGLE_SHEETS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyeu4UPOyKP7Qdp3PJnFdtf8w5wyGWexv9kDfXPrVAIiPAxOMS5-rPrjx2y-4FpEOnr/exec"; // GANTI DENGAN URL APPS SCRIPT
         const MAPEL = "BAHASA ARAB";
         const JENIS_UJIAN = "SUMATIF AKHIR JENJANG (SAJ) 2026/2027";
-        const KELAS = "IX";
+        const KELAS = "XI";
         const DURASI_MENIT = 60;
         const STORAGE_KEY = `cbt_${MAPEL.replace(/\s+/g, '_')}_${KELAS}`;
 
         // ==========================================
-        // DATA SOAL (Di-ekstrak dari PDF)
+        // DATA SOAL (Contoh Lengkap Tipe Soal & Gambar)
         // ==========================================
         const rawQuestionsData = [
             { id: 1, type: 'mc', text: 'مَا اللُّغَةُ الْعَرَبِيَّةُ لِكَلِمَةِ "Kunci" .', rtl: true, options: [{ id: 'a', text: 'مِفْتَاحٌ', rtl: true }, { id: 'b', text: 'بَابٌ', rtl: true }, { id: 'c', text: 'نَافِدَةٌ', rtl: true }, { id: 'd', text: 'كُرْسِيُّ', rtl: true }], answer: 'a' },
             { id: 2, type: 'mc', text: 'مَا اللُّغَةُ الْعَرَبِيَّةُ لِكَلِمَةِ " Jendela"', rtl: true, options: [{ id: 'a', text: 'سَبُورَةٌ', rtl: true }, { id: 'b', text: 'نَافِذَةٌ', rtl: true }, { id: 'c', text: 'مِفْتَاحٌ', rtl: true }, { id: 'd', text: 'جَرَسٌ', rtl: true }], answer: 'b' },
             { id: 3, type: 'mc', text: 'مَا مَعْنَى كَلِمَةٍ «سَبُّورَةٌ»؟', rtl: true, options: [{ id: 'a', text: 'Meja', rtl: false }, { id: 'b', text: 'Papan tulis', rtl: false }, { id: 'c', text: 'Penghapus', rtl: false }, { id: 'd', text: 'Lemari', rtl: false }], answer: 'b' },
-            { id: 4, type: 'mc', text: '؟"Bel / Lonceng" مَا اللُّغَةُ الْعَرَبِيَّةُ لِكَلِمَةِ', rtl: true, options: [{ id: 'a', text: 'مِصْبَاحٌ', rtl: true }, { id: 'b', text: 'مِفْتَاحٌ', rtl: true }, { id: 'c', text: 'جَرَسٌ', rtl: true }, { id: 'd', text: 'كُرْسِيُّ', rtl: true }], answer: 'c' },
-            { id: 5, type: 'mc', text: 'مَا مَعْنَى كَلِمَةٍ مِصْبَاحٌ»؟', rtl: true, options: [{ id: 'a', text: 'Lampu', rtl: false }, { id: 'b', text: 'Kipas angin', rtl: false }, { id: 'c', text: 'Jam', rtl: false }, { id: 'd', text: 'Pintu', rtl: false }], answer: 'a' },
-            { id: 6, type: 'mc', text: 'مَا اللُّغَةُ الْعَرَبِيَّةُ لِكَلِمَةِ "Kursi"', rtl: true, options: [{ id: 'a', text: 'مَكْتَبٌ', rtl: true }, { id: 'b', text: 'بَابٌ', rtl: true }, { id: 'c', text: 'رَفٌ', rtl: true }, { id: 'd', text: 'كُرْسِيُّ', rtl: true }], answer: 'd' },
-            { id: 7, type: 'mc', text: 'مَا اللُّغَةُ الْعَرَبِيَّةُ لِكَلِمَةِ "Kapur tulis"', rtl: true, options: [{ id: 'a', text: 'طَبْشُورَةٌ', rtl: true }, { id: 'b', text: 'مِسْطَرَةٌ', rtl: true }, { id: 'c', text: 'مِمْحَاةٌ', rtl: true }, { id: 'd', text: 'كُرَّاسَةٌ', rtl: true }], answer: 'a' },
-            { id: 8, type: 'mc', text: 'مَا مَعْنَى كَلِمَةٍ «مُكَيف»؟', rtl: true, options: [{ id: 'a', text: 'Kipas angin', rtl: false }, { id: 'b', text: 'Pendingin ruangan (AC)', rtl: false }, { id: 'c', text: 'Televisi', rtl: false }, { id: 'd', text: 'Lampu', rtl: false }], answer: 'b' },
-            { id: 9, type: 'mc', text: '!"Tembok merah" إِخْتَرِ الْعِبَارَةَ الصَّحِيحَة لـ', rtl: true, options: [{ id: 'a', text: 'جِدَارٌ حَمْرَاءُ', rtl: true }, { id: 'b', text: 'جِدَارٌ أَحْمَرُ', rtl: true }, { id: 'c', text: 'جِدَارٌ صَفْرَاءُ', rtl: true }, { id: 'd', text: 'جِدَارٌ أَصْغَرُ', rtl: true }], answer: 'b' },
-            { id: 10, type: 'mc', text: 'إِخْتَرِ الْعِبَارَةَ الصَّحِيحَةَ لـ "Jendela biru"', rtl: true, options: [{ id: 'a', text: 'نَافِذَةٌ أَزْرَقُ', rtl: true }, { id: 'b', text: 'نَافِذَةٌ أَحْمَرُ', rtl: true }, { id: 'c', text: 'نَافِذَةٌ زَرْقَاءُ', rtl: true }, { id: 'd', text: 'نَافِذَةٌ حَمْرَاءُ', rtl: true }], answer: 'c' },
-            { id: 11, type: 'mc', text: 'مَا هُوَ الْمُؤَنَّتْ (bentuk muannats) مِنْ كَلِمَةٍ أَخْضَرُ»؟', rtl: true, options: [{ id: 'a', text: 'خَضْرَاءُ', rtl: true }, { id: 'b', text: 'أَخْضَرُ', rtl: true }, { id: 'c', text: 'صَفْرَاءُ', rtl: true }, { id: 'd', text: 'حَمْرَاءُ', rtl: true }], answer: 'a' },
-            { id: 12, type: 'mc', text: 'مَا هُوَ الْمُذَكَّرُ (bentuk mudzakkar) مِنْ كَلِمَةِ سَوْدَاءُ»؟', rtl: true, options: [{ id: 'a', text: 'سَوْدَاءُ', rtl: true }, { id: 'b', text: 'أَصْغَرُ', rtl: true }, { id: 'c', text: 'أَسْوَدُ', rtl: true }, { id: 'd', text: 'أَزْرَقُ', rtl: true }], answer: 'c' },
-            { id: 13, type: 'mc', text: '!"Papan tulis putih" إِخْتَرِ التَّرْجَمَةَ الصَّحِيحَةُ لِـ', rtl: true, options: [{ id: 'a', text: 'سَبُورَةُ أَبْيَضُ', rtl: true }, { id: 'b', text: 'سَبُورَةٌ بَيْضَاءُ', rtl: true }, { id: 'c', text: 'سَبُّورَةٌ سَوْدَاءُ', rtl: true }, { id: 'd', text: 'سَبُورَةٌ أَسْوَدُ', rtl: true }], answer: 'b' },
-            { id: 14, type: 'mc', text: 'مَا مَعْنَى الْجُمْلَةِ لَوْنُ الْكِتَابِ أَصْفَرُ»؟', rtl: true, options: [{ id: 'a', text: 'Warna pintu itu kuning', rtl: false }, { id: 'b', text: 'Warna buku itu kuning', rtl: false }, { id: 'c', text: 'Warna jam itu merah', rtl: false }, { id: 'd', text: 'Warna buku itu merah', rtl: false }], answer: 'b' },
-            { id: 15, type: 'mc', text: 'إِمْلَا الْفَرَاعُ بِالضَّمِيرِ الْمُنَاسِب: «الْكِتَابُ لَوْتُ [...] أَزْرَقُ»', rtl: true, options: [{ id: 'a', text: 'هَا', rtl: true }, { id: 'b', text: 'كَ', rtl: true }, { id: 'c', text: 'هُ', rtl: true }, { id: 'd', text: 'ي', rtl: true }], answer: 'c' },
-            { id: 16, type: 'mc', text: 'إِمْلَا الْفَرَاعُ بِالضَّمِيرِ الْمُنَاسِب: «السَّاعَةُ لَوْنُ [...] أَسْوَدُ»', rtl: true, options: [{ id: 'a', text: 'هُ', rtl: true }, { id: 'b', text: 'هَا', rtl: true }, { id: 'c', text: 'كَ', rtl: true }, { id: 'd', text: 'نَا', rtl: true }], answer: 'b' },
-            { id: 17, type: 'mc', text: '!"Dia (laki-laki) mempunyai pena" : تَرْجِمُ إِلَى اللُّغَةِ الْعَرَبِيَّةِ', rtl: true, options: [{ id: 'a', text: 'عِنْدِي قَلَمٌ', rtl: true }, { id: 'b', text: 'عِنْدَهَا قَلَمٌ', rtl: true }, { id: 'c', text: 'عِنْدَهُ قَلَمٌ', rtl: true }, { id: 'd', text: 'عِنْدَكِ قَلَمٌ', rtl: true }], answer: 'c' },
-            { id: 18, type: 'mc', text: '!"Kami mempunyai kelas" :ترْجِمْ إِلَى اللُّغَةِ الْعَرَبِيَّةِ', rtl: true, options: [{ id: 'a', text: 'عِنْدَنَا فَصْلٌ', rtl: true }, { id: 'b', text: 'عِنْدِي فَصْلٌ', rtl: true }, { id: 'c', text: 'عِنْدَهُ فَصْلٌ', rtl: true }, { id: 'd', text: 'عِنْدَكَ فَصْلٌ', rtl: true }], answer: 'a' },
-            { id: 19, type: 'mc', text: '!"Kamu (perempuan) mempunyai buku" : تَرْجِمُ إِلَى اللُّغَةِ الْعَرَبِيَّةِ', rtl: true, options: [{ id: 'a', text: 'عِنْدَكَ كِتَابٌ', rtl: true }, { id: 'b', text: 'عِنْدَكِ كِتَابٌ', rtl: true }, { id: 'c', text: 'عِنْدِي كِتَابٌ', rtl: true }, { id: 'd', text: 'عِنْدَهَا كِتَابٌ', rtl: true }], answer: 'b' },
-            { id: 20, type: 'mc', text: '!"Saya mempunyai penghapus" : ترجِمْ إِلَى اللُّغَةِ الْعَرَبِيَّةِ', rtl: true, options: [{ id: 'a', text: 'عِنْدَهُ طَلَّاسَةٌ', rtl: true }, { id: 'b', text: 'عِنْدَهَا طَلَّاسَةٌ', rtl: true }, { id: 'c', text: 'عِنْدَكَ طَلَّاسَةٌ', rtl: true }, { id: 'd', text: 'عِنْدِي طَلَّاسَةٌ', rtl: true }], answer: 'd' },
+            { id: 24, type: 'mc', text: 'مَا هَذَا؟ (Perhatikan Gambar)', rtl: true, image: 'https://placehold.co/600x400/0891b2/ffffff?text=GAMBAR_PROYEKTOR', options: [{ id: 'a', text: 'مِصْبَاحٌ', rtl: true }, { id: 'b', text: 'بُرُوجِكْتُر', rtl: true }, { id: 'c', text: 'مُكَيف', rtl: true }, { id: 'd', text: 'حَاسُوبٌ', rtl: true }], answer: 'b' },
+            // Contoh Soal dengan GAMBAR PADA PILIHAN GANDA (Opsi)
             { 
-                id: 21, type: 'mc', 
-                text: 'Bacalah teks di bawah ini untuk menjawab soal nomor 21 - 23!\n\nأَنْظُرْ إِلَى هَذِهِ الصُّورَةِ هَذَا فَصْلِي الفَصْلُ وَاسِعٌ وَجَمِيلٌ وَمُنَظَّمٌ فِيْهِ أَدَوَاتٌ كَثِيرَةٌ مِنْهَا: بَابٌ وَبِسَاطٌ وَبِطَاقَةٌ وَمُكَيِّفٌ وَتَقْوِيمٌ وَجَرَسٌ وَجِدَارٌ وَخَرِيْطَةٌ وَرَفٌ وَسَاعَةٌ وَسَبُّوْرَةٌ وَصُوْرَةٌ وَطَبْشُوْرَةٌ وَمِسَاحَةٌ وَمُعْجَمٌ وَكُرْسِيُّ وَمَعْرَضٌ وَمَكْتَبٌ وَمَوْسُوْعَةٌ وَجَدْوَلُ الدُّرُوسِ وَسَاعَةٌ حَائِطِيَّةٌ وَكَشْفُ الحُضُورِ وَمَجَلَّةٌ جِدَارِيَّةٌ وَكُرَةٌ أَرْضِيَّةٌ وَبُرُوْجِكْتُر وَمُلْصَقٌ وَمِصْبَاحٌ وَمِفْتَاحٌ وَنَافِذَةٌ.\n\nBerdasarkan teks di atas, bagaimana keadaan kelas tersebut?\nمَا صِفَةُ الفَصْلِ فِي النَّصِّ السَّابِقِ؟', 
+                id: 25, 
+                type: 'mc', 
+                text: 'أَيُّ صُورَةٍ تَدُلُّ عَلَى كَلِمَةٍ «خَرِيْطَةٌ»؟ (Manakah yang merupakan gambar Peta?)', 
                 rtl: true, 
-                options: [{ id: 'a', text: 'Sempit dan kotor (ضَيِّقٌ وَمُتَّسِخُ)', rtl: false }, { id: 'b', text: 'Luas, indah, dan rapi (وَاسِعٌ وَجَمِيْلٌ وَمُنَظّمٌ)', rtl: false }, { id: 'c', text: 'Tua dan kecil (قَدِيمٌ وَصَغِيْرٌ)', rtl: false }, { id: 'd', text: 'Gelap dan dingin (مُظْلِمٌ وَبَارِدٌ)', rtl: false }], 
-                answer: 'b' 
+                options: [
+                    { id: 'a', text: 'Gambar A', image: 'https://placehold.co/150x150/0891b2/ffffff?text=PETA' }, 
+                    { id: 'b', text: 'Gambar B', image: 'https://placehold.co/150x150/0891b2/ffffff?text=JAM' }, 
+                    { id: 'c', text: 'Gambar C', image: 'https://placehold.co/150x150/0891b2/ffffff?text=MEJA' }, 
+                    { id: 'd', text: 'Gambar D', image: 'https://placehold.co/150x150/0891b2/ffffff?text=BUKU' }
+                ], 
+                answer: 'a' 
             },
-            { id: 22, type: 'mc', text: 'مَا مَعْنَى كَلِمَةٍ «مُعْجَمٌ» فِي النَّص؟', rtl: true, options: [{ id: 'a', text: 'Kamus', rtl: false }, { id: 'b', text: 'Peta', rtl: false }, { id: 'c', text: 'Jadwal pelajaran', rtl: false }, { id: 'd', text: 'Majalah dinding', rtl: false }], answer: 'a' },
-            { id: 23, type: 'mc', text: 'هَلْ فِي الفَصْلِ كُرَةٌ أَرْضِيَّةٌ؟', rtl: true, options: [{ id: 'a', text: 'نَعَمْ، فِيْهِ كُرَةٌ أَرْضِيَّةٌ', rtl: true }, { id: 'b', text: 'لَا، فِيْهِ خَرِيْطَةٌ', rtl: true }, { id: 'c', text: 'نَعَمْ، هَذِهِ مَجَلَّةٌ', rtl: true }, { id: 'd', text: 'لا، مَا فِيْهِ كُرَةٌ أَرْضِيَّةٌ', rtl: true }], answer: 'a' },
-            { id: 24, type: 'mc', text: 'مَا هَذَا؟', rtl: true, image: 'Gemini_Generated_Image_vsdqjwvsdqjwvsdq.jfif', options: [{ id: 'a', text: 'مِصْبَاحٌ', rtl: true }, { id: 'b', text: 'بُرُوجِكْتُر', rtl: true }, { id: 'c', text: 'مُكَيف', rtl: true }, { id: 'd', text: 'حَاسُوبٌ', rtl: true }], answer: 'b' },
-            { id: 25, type: 'mc', text: 'أَيُّ صُورَةٍ تَدُلُّ عَلَى كَلِمَةٍ «خَرِيْطَةٌ»؟', rtl: true, options: [{ id: 'a', text: 'Gambar Peta', image: 'Gemini_Generated_Image_92rzy692rzy692rz' }, { id: 'b', text: 'Gambar Jam', image: 'Gemini_Generated_Image_aqe6zfaqe6zfaqe6' }, { id: 'c', text: 'Gambar Meja', image: 'Gemini_Generated_Image_p173h6p173h6p173' }, { id: 'd', text: 'Gambar Buku', image: 'Gemini_Generated_Image_vsdqjwvsdqjwvsdq' }], answer: 'a' },
             { 
                 id: 26, type: 'matching', text: 'Jodohkanlah pertanyaan pada Kolom A dengan jawaban yang tepat pada Kolom B!\nوَفَقْ بَيْنَ الْأَسْئِلَةِ فِي المَجْمُوعَةِ (أ) وَالإِجَابَةِ الصَّحِيحَةِ فِي المَجْمُوعَةِ (ب)!', rtl: false,
                 premises: [
                     { id: 'p1', text: 'مَا اللَّغَةُ الْعَرَبِيَّةُ لِكَلِمَةِ "Pintu"?', rtl: true },
-                    { id: 'p2', text: 'مَا اللُّغَةُ الْعَرَبِيَّةُ لِكَلِمَةِ "Rak"?', rtl: true },
-                    { id: 'p3', text: 'مَا اللُّغَةُ الْعَرَبِيَّةُ لِكَلِمَةِ "Proyektor"?', rtl: true },
-                    { id: 'p4', text: 'مَا مَعْنَى كَلِمَةٍ أَبْيَضُ فِي مِفْتَاحٌ أَبْيَضُ؟', rtl: true },
-                    { id: 'p5', text: 'مَا مَعْنَى كَلِمَةٍ سَوْدَاءُ فِي سَاعَةَ سَوْدَاءٌ؟', rtl: true },
-                    { id: 'p6', text: 'إِمْلَا الْفَرَاغَ لـ "Jendela kuning" : نَافِذَةٌ [...]', rtl: true },
-                    { id: 'p7', text: 'إِمْلَا الْفَرَاغُ "Warna buku kuning" : لَوْنُ الْكِتَابِ [...]', rtl: true },
-                    { id: 'p8', text: 'الضَّمِيرُ الْمُنَاسِبُ "Buku itu warnanya merah" : الْكِتَابُ لَوْتُ [...] أَحْمَرُ', rtl: true },
-                    { id: 'p9', text: 'الصِّمِيرُ الْمُنَاسِبُ "Jam itu warnanya hitam" : السَّاعَةَ لَوْتُ [...] أَسْوَدُ', rtl: true },
-                    { id: 'p10', text: 'الْكَلِمَةُ الْمُنَاسِبَةُ لِـ "Saya mempunyai buku" : [...] كِتَابٌ', rtl: true },
+                    { id: 'p2', text: 'مَا مَعْنَى كَلِمَةٍ سَوْدَاءُ فِي سَاعَةَ سَوْدَاءٌ؟', rtl: true }
                 ],
                 targets: [
-                    { id: 'tA', text: 'صَفْرَاءُ', rtl: true },
-                    { id: 'tB', text: 'أَصْفَرُ', rtl: true },
-                    { id: 'tC', text: 'هُ', rtl: true },
                     { id: 'tD', text: 'بَابٌ', rtl: true },
-                    { id: 'tE', text: 'هَا', rtl: true },
-                    { id: 'tF', text: 'عِنْدِي', rtl: true },
-                    { id: 'tG', text: 'Putih', rtl: false },
-                    { id: 'tH', text: 'Hitam', rtl: false },
-                    { id: 'tI', text: 'رَفٌ', rtl: true },
-                    { id: 'tJ', text: 'بَرُوجِكْتُر', rtl: true },
+                    { id: 'tH', text: 'Hitam', rtl: false }
                 ],
-                pairs: { 'p1': 'tD', 'p2': 'tI', 'p3': 'tJ', 'p4': 'tG', 'p5': 'tH', 'p6': 'tA', 'p7': 'tB', 'p8': 'tC', 'p9': 'tE', 'p10': 'tF' }
-            }
+                pairs: { 'p1': 'tD', 'p2': 'tH' }
+            },
+            { id: 27, type: 'essay', text: 'Buatlah kalimat sederhana dalam bahasa Arab yang menggunakan kata "كِتَابٌ"!', rtl: true }
         ];
 
         // ==========================================
@@ -142,7 +114,7 @@
         // KOMPONEN UTAMA
         // ==========================================
         const App = () => {
-            const [step, setStep] = useState('init'); // init, login, active, submitting, result
+            const [step, setStep] = useState('init'); 
             const [userData, setUserData] = useState({ nama: '', kelas: '', tanggal: new Date().toISOString().substr(0, 10) });
             const [questions, setQuestions] = useState([]);
             const [answers, setAnswers] = useState({});
@@ -193,14 +165,8 @@
 
                 const handleCopyPaste = (e) => e.preventDefault();
                 const handleContextMenu = (e) => e.preventDefault();
-
-                const handleVisibility = () => {
-                    if (document.hidden) registerViolation();
-                };
-
-                const handleFullscreen = () => {
-                    if (!document.fullscreenElement) registerViolation();
-                };
+                const handleVisibility = () => { if (document.hidden) registerViolation(); };
+                const handleFullscreen = () => { if (!document.fullscreenElement) registerViolation(); };
 
                 document.addEventListener('copy', handleCopyPaste);
                 document.addEventListener('paste', handleCopyPaste);
@@ -224,12 +190,11 @@
                     setModal({ show: true, type: 'cheat_fatal', message: 'Anda telah keluar dari aplikasi 2 kali. Ujian dihentikan dan disubmit secara otomatis.' });
                     setTimeout(() => handleSubmit(true), 3000);
                 } else {
-                    setModal({ show: true, type: 'cheat_warning', message: 'Peringatan ke-1: Anda terdeteksi keluar dari layar ujian. Jika mengulangi, ujian akan otomatis disubmit!' });
+                    setModal({ show: true, type: 'cheat_warning', message: 'Peringatan ke-1: Anda terdeteksi keluar dari layar ujian. Jika mengulangi, ujian otomatis disubmit!' });
                 }
             };
 
             const startNewExam = () => {
-                // Shuffle questions and options
                 let shuf = shuffleArray(rawQuestionsData).map(q => {
                     if (q.options) return { ...q, options: shuffleArray(q.options) };
                     if (q.targets) return { ...q, targets: shuffleArray(q.targets) };
@@ -268,31 +233,24 @@
 
             const isQuestionAnswered = (q) => {
                 if (!answers[q.id]) return false;
-                if (q.type === 'matching') {
-                    return Object.keys(answers[q.id]).length === q.premises.length;
-                }
-                if (q.type === 'complex') {
-                    return answers[q.id].length > 0;
-                }
+                if (q.type === 'matching') return Object.keys(answers[q.id]).length === q.premises.length;
+                if (q.type === 'complex') return answers[q.id].length > 0;
                 return String(answers[q.id]).trim().length > 0;
             };
 
-            // Calculate Score and generate detailed JSON
+            // Hitung Skor & Siapkan Format JSON
             const handleSubmit = async (isForced = false) => {
                 setModal({ show: false, type: '', message: '' });
                 setStep('submitting');
                 if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
 
                 let totalCorrectWeight = 0;
-                const totalItemsWeight = rawQuestionsData.length; // Simplified: each main question is 1 point weight
-                
+                const totalItemsWeight = rawQuestionsData.length;
                 let rincianArr = [];
                 let esaiArr = [];
 
-                // Grade strictly based on rawQuestionsData (original order/keys)
                 rawQuestionsData.forEach((origQ) => {
                     const jwb = answers[origQ.id];
-                    
                     if (!jwb || (typeof jwb === 'object' && Object.keys(jwb).length===0)) {
                         rincianArr.push(`Soal ${origQ.id}: KOSONG`);
                         return;
@@ -328,7 +286,6 @@
                         const cleanJwb = String(jwb).replace(/\n/g, ' ');
                         esaiArr.push(`Soal ${origQ.id}: ${cleanJwb}`);
                         rincianArr.push(`Soal ${origQ.id} (${origQ.type}): ${cleanJwb}`);
-                        // manual grading for essays, auto 0 for now.
                     }
                     else if (origQ.type === 'complex') {
                         const isCorrect = Array.isArray(jwb) && jwb.length === origQ.answer.length && jwb.every(v => origQ.answer.includes(v));
@@ -366,7 +323,7 @@
                 setStep('result');
             };
 
-            // RENDER LOGIC
+            // RENDER HALAMAN AWAL
             if (step === 'init') return <div className="text-white text-center mt-20">Memuat...</div>;
 
             if (step === 'login' || step === 'recovery') {
@@ -432,7 +389,7 @@
                 );
             }
 
-            // --- EXAM VIEW ---
+            // --- EXAM VIEW (AREA UJIAN) ---
             const q = questions[currentQ];
 
             return (
@@ -477,19 +434,23 @@
                             <div className="bg-white rounded-xl shadow-sm p-6 md:p-10 max-w-4xl mx-auto">
                                 <div className="mb-4 text-sm font-semibold text-gray-400 border-b pb-4">SOAL NOMOR {currentQ + 1}</div>
                                 
-                                {/* QUESTION TEXT */}
+                                {/* QUESTION TEXT & IMAGE */}
                                 <div className={`text-lg md:text-xl text-gray-800 mb-6 whitespace-pre-line ${q.rtl ? 'arabic-text text-right text-2xl font-bold' : ''}`} dir={q.rtl ? 'rtl' : 'ltr'}>
                                     {q.text}
                                 </div>
-                                {q.image && <img src={q.image} alt="Soal" className="mb-6 max-w-full h-auto rounded border" />}
+                                {q.image && <img src={q.image} alt="Gambar Soal" className="mb-6 max-w-full h-auto max-h-80 object-contain rounded border" />}
 
                                 {/* OPTIONS / INPUTS */}
                                 <div className="space-y-4">
                                     {q.type === 'mc' && q.options.map(opt => (
-                                        <label key={opt.id} className={`flex ${q.rtl ? 'flex-row-reverse text-right' : 'flex-row'} items-center p-4 border rounded-xl cursor-pointer transition ${answers[q.id] === opt.id ? 'bg-cyan-50 border-cyan-500 shadow-sm' : 'hover:bg-gray-50 border-gray-200'}`}>
-                                            <input type="radio" name={`q_${q.id}`} className="w-5 h-5 text-cyan-600" checked={answers[q.id] === opt.id} onChange={() => handleAnswerChange(q.id, opt.id)} />
-                                            <span className={`flex-1 ${q.rtl ? 'mr-4 arabic-text text-xl' : 'ml-4'} ${opt.rtl ? 'arabic-text text-xl text-right' : ''}`} dir={opt.rtl ? 'rtl' : 'ltr'}>{opt.text}</span>
-                                            {opt.image && <img src={opt.image} alt="Opsi" className="h-16 ml-4" />}
+                                        <label key={opt.id} className={`flex ${q.rtl ? 'flex-row-reverse' : 'flex-row'} items-start p-4 border rounded-xl cursor-pointer transition ${answers[q.id] === opt.id ? 'bg-cyan-50 border-cyan-500 shadow-sm' : 'hover:bg-gray-50 border-gray-200'}`}>
+                                            <input type="radio" name={`q_${q.id}`} className={`w-5 h-5 mt-1 text-cyan-600 ${q.rtl ? 'ml-4' : 'mr-4'}`} checked={answers[q.id] === opt.id} onChange={() => handleAnswerChange(q.id, opt.id)} />
+                                            
+                                            {/* TEXT DAN GAMBAR DI DALAM OPSI */}
+                                            <div className={`flex-1 flex flex-col ${q.rtl ? 'items-end' : 'items-start'}`}>
+                                                {opt.text && <span className={`${opt.rtl ? 'arabic-text text-xl text-right' : ''}`} dir={opt.rtl ? 'rtl' : 'ltr'}>{opt.text}</span>}
+                                                {opt.image && <img src={opt.image} alt="Gambar Opsi" className="mt-3 max-h-40 object-contain rounded-md border" />}
+                                            </div>
                                         </label>
                                     ))}
 
